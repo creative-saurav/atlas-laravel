@@ -1,0 +1,27 @@
+.fs-30px {
+    font-size: 30px;
+}
+.fs-16px {
+    font-size: 16px;
+}
+.fs-14px {
+    font-size: 14px;
+}
+.icon-color {
+    color: #6C1CFF;
+}
+.at-shadow-card.active {
+    background-color: var(--themeColor);
+}
+.line-1 {
+    display: -webkit-box!important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.mh-category-content .in-title-18px{
+    text-transform: capitalize;
+}
