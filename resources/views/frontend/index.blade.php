@@ -5,6 +5,7 @@
         <!-- Banner slider -->
         <div class="swiper banner-slider">
             <div class="swiper-wrapper">
+
                 <div class="swiper-slide">
                     <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner1.webp")}}');">
                         <div class="banner-slider-content">
@@ -13,6 +14,8 @@
                         </div>
                     </div>
                 </div>
+                
+
                 <div class="swiper-slide">
                     <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner2.webp")}}');">
                         <div class="banner-slider-content">
@@ -215,7 +218,7 @@
                 </div>
                 @endforeach
 
-                
+
 
             </div>
         </div>
@@ -853,6 +856,9 @@
     </section>
     <!-- End Blog Area -->
    
+
+
+    
 @endsection
 @push('js')
 <script src="{{ asset('public/assets/frontend/js/swiper-bundle.min.js') }}"></script>
