@@ -247,11 +247,6 @@ Route::prefix('user')->middleware(['auth'])->group(function () {
 
 
 
-
-
-
-
-
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
