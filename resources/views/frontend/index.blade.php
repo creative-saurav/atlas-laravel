@@ -173,7 +173,7 @@
         <div class="container">
             <div class="row mb-30px">
                 <div class="col-12">
-                    <h1 class="in-title-36px text-center text-capitalize lh-1">{{get_phrase('Browse Top Categories')}}</h1>
+                    <h1 class="in-title-36px text-center text-capitalize lh-1">{{get_phrase('Browse Top Categories.')}}</h1>
                 </div>
             </div>
             <div class="row g-12px mb-100px row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
