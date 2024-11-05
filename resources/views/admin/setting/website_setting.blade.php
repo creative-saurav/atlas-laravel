@@ -108,6 +108,10 @@
                                     @csrf
                                     <input type="hidden" name="type" value="frontend_settings">
                                     <div class=" fpb-7 mb-3">
+                                        <label for="map_position" class="form-label ol-form-label"> {{get_phrase('Footer Text')}} </label>
+                                        <input type="text" class="form-control" name="footer_text" placeholder="Enter " value="">
+                                    </div>  
+                                    <div class=" fpb-7 mb-3">
                                         <label for="map_position" class="form-label ol-form-label"> {{get_phrase('Map Position')}} </label>
                                         <select name="map_position" id="map_position" class="form-control ol-select2 ol-form-control">
                                             <option value="right" {{get_frontend_settings('map_position') == 'right'?'selected':''}}> {{get_phrase('Right Sidebar')}} </option>
@@ -141,46 +145,8 @@
                         </div>
                         <div class="tab-pane fade" id="logo_images" role="tabpanel"
                             aria-labelledby="logo_images-tab">
-                            <form action="{{route('admin.website-setting-update')}}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="type" value="logo_images_settings">
-                                <label for="map_position" class="form-label ol-form-label mt-3">{{get_phrase('Mother Homepage Banner')}} </label>
-                                <div class="row mb-3">
-                                    @php
-                                    $mother_banner_images = json_decode(get_frontend_settings('mother_homepage_banner'), true);
-                                    $mother_banner_images = is_array($mother_banner_images) && !empty(array_filter($mother_banner_images, fn($banner) => !empty($banner['title']) || !empty($banner['description']) || !empty($banner['image'])))
-                                        ? $mother_banner_images
-                                        : null;
-                                @endphp
+                            <div class="row mt-5">
                                 
-                                @if($mother_banner_images)
-                                    @foreach ($mother_banner_images as $key => $banner_images)
-                                        <div class="col-md-2">
-                                            <div class="eImage eCard card">
-                                                <img src="{{ asset('public/uploads/mother_homepage_banner/' . $banner_images['image']) }}" alt="">
-                                                <div class="card-body card_text">
-                                                    <h5>{{ \Illuminate\Support\Str::limit($banner_images['title'], 18, '...') }}</h5>
-                                                </div>
-                                                <div class="eControll d-flex">
-                                                    <a href="javascript:;" onclick="edit_modal('modal-md', '{{ route('admin.mother-banner.edit', ['id' => $banner_images['id']]) }}', '{{ get_phrase('Update Banner') }}')"  data-bs-toggle="tooltip" 
-                                                    title="{{ get_phrase('Edit') }}"> <i class="fas fa-edit"></i>
-                                                 </a>
-                                                 
-                                                 <a href="javascript:;" onclick="delete_modal('{{ route('admin.delete-mother-banner', ['id' => $banner_images['id']]) }}')" 
-                                                    class="mx-1"  data-bs-toggle="tooltip" title="{{ get_phrase('Delete') }}"> <i class="fas fa-trash"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endif
-                                    <div class="col-md-2">
-                                        <div class="eImage"  onclick="modal('modal-md', '{{route('admin.mother.banner')}}', '{{get_phrase('Add New Banner')}}')">
-                                            <span><i class="fas fa-plus"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                             </form>
-                             <div class="row mt-5">
                                 <div class="col-xl-4 col-lg-6">
                                     <div class="ol-card p-4 ol-card p-4-2">
                                         <div class="ol-card-body">
@@ -196,7 +162,7 @@
                                                                         @if(get_frontend_settings('light_logo'))
                                                                           <img src="{{ asset('public/uploads/logo/' . get_frontend_settings('light_logo')) }}" alt="" class="radious-15px px-2 py-2 light-logo-preview h-77">
                                                                         @else
-                                                                            <img src="{{ asset('public/uploads/logo/light_logo.svg') }}" alt="" class="radious-15px px-2 py-2 dark-logo-preview h-77">
+                                                                            <img src="{{ asset('public/uploads/logo/light_logo.svg') }}" alt="" class="radious-15px px-2 py-2 light-logo-preview h-77">
                                                                         @endif
                                                                         <label for="light_logo" class="btn ol-card p-4-text">
                                                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -272,7 +238,7 @@
                                                                         @if(get_frontend_settings('favicon_logo'))
                                                                           <img src="{{ asset('public/uploads/logo/' . get_frontend_settings('favicon_logo')) }}" alt="" class="radious-15px px-2 py-2 favicon-logo-preview h-77">
                                                                         @else
-                                                                            <img src="{{ asset('public/uploads/logo/favicon.svg') }}" alt="" class="radious-15px px-2 py-2 dark-logo-preview h-77">
+                                                                            <img src="{{ asset('public/uploads/logo/favicon.svg') }}" alt="" class="radious-15px px-2 py-2 favicon-logo-preview h-77">
                                                                         @endif
                                                                         <label for="favicon_logo" class="btn ol-card p-4-text">
                                                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -295,6 +261,319 @@
                                     </div>
                                 </div>
                              </div>
+
+                                {{-- Category Type Image --}}
+                                <label for="category_type" class="form-label ol-form-label mt-3">{{get_phrase('Category Type Image')}} </label>
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="hotel">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('hotel'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('hotel')) }}" alt="" class=" h-360 radious-15px  hotel-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 hotel-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="hotel" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Hotel type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="hotel" type="file" class="image-upload d-none" name="hotel" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="doctors">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('doctors'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('doctors')) }}" alt="" class=" h-360 radious-15px  doctors-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 doctors-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="doctors" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Doctors type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="doctors" type="file" class="image-upload d-none" name="doctors" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="car">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('car'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('car')) }}" alt="" class=" h-360 radious-15px car-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 car-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="car" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Cars type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="car" type="file" class="image-upload d-none" name="car" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="beauty">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('beauty'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('beauty')) }}" alt="" class=" h-360 radious-15px beauty-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 beauty-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="beauty" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Beauty type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="beauty" type="file" class="image-upload d-none" name="beauty" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="real_estate">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('real_estate'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('real_estate')) }}" alt="" class="h-360 radious-15px real_estate-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 real_estate-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="real_estate" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Real Estate type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="real_estate" type="file" class="image-upload d-none" name="real_estate" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                    <div class="col-xl-3 col-lg-6">
+                                       <div class="ol-card p-4 ol-card p-4-2">
+                                           <div class="ol-card-body">
+                                               <div class="col-xl-12">
+                                                   <div class="row justify-content-center">
+                                                       <form action="{{ route('admin.website-setting-update') }}" method="post" enctype="multipart/form-data" class="text-center">
+                                                           @csrf
+                                                           <input type="hidden" name="type" value="restaurent">
+                                                           <div class="form-group mb-2">
+                                                               <div class="wrapper-image-preview  d-flex justify-content-center">
+                                                                   <div class="box">
+                                                                       <div class="upload-options">
+                                                                           @if(get_frontend_settings('restaurent'))
+                                                                               <img src="{{ asset('public/uploads/category_type/' . get_frontend_settings('restaurent')) }}" alt="" class=" h-360 radious-15px  restaurent-preview w-100">
+                                                                           @else
+                                                                               <img src="" alt="" class="bg-dark_2 radious-15px px-2 py-2 restaurent-preview h-360 w-100">
+                                                                           @endif
+   
+                                                                           <label for="restaurent" class="btn ol-card p-4-text">
+                                                                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                   <path
+                                                                                       d="M18 6C17.39 6 16.83 5.65 16.55 5.11L15.83 3.66C15.37 2.75 14.17 2 13.15 2H10.86C9.83005 2 8.63005 2.75 8.17005 3.66L7.45005 5.11C7.17004 5.65 6.61005 6 6.00005 6C3.83005 6 2.11005 7.83 2.25005 9.99L2.77005 18.25C2.89005 20.31 4.00005 22 6.76005 22H17.24C20 22 21.1 20.31 21.23 18.25L21.75 9.99C21.89 7.83 20.17 6 18 6ZM10.5 7.25H13.5C13.91 7.25 14.25 7.59 14.25 8C14.25 8.41 13.91 8.75 13.5 8.75H10.5C10.09 8.75 9.75005 8.41 9.75005 8C9.75005 7.59 10.09 7.25 10.5 7.25ZM12 18.12C10.14 18.12 8.62005 16.61 8.62005 14.74C8.62005 12.87 10.13 11.36 12 11.36C13.87 11.36 15.38 12.87 15.38 14.74C15.38 16.61 13.86 18.12 12 18.12Z"
+                                                                                       fill="#797c8b" />
+                                                                               </svg>
+                                                                               {{ get_phrase('Upload Restaurent type Image') }}
+                                                                               <small class="d-block">(360 X 360)</small> </label>
+                                                                           <input id="restaurent" type="file" class="image-upload d-none" name="restaurent" accept="image/*">
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                           <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Save Changes') }}</button>
+                                                       </form>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                </div>
+                                {{-- Category Type Image --}}
+
+                            <form action="{{route('admin.website-setting-update')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="type" value="logo_images_settings">
+                                <label for="map_position" class="form-label ol-form-label mt-3">{{get_phrase('Mother Homepage Banner')}} </label>
+                                <div class="row mb-3">
+                                    @php
+                                    $mother_banner_images = json_decode(get_frontend_settings('mother_homepage_banner'), true);
+                                    $mother_banner_images = is_array($mother_banner_images) && !empty(array_filter($mother_banner_images, fn($banner) => !empty($banner['title']) || !empty($banner['description']) || !empty($banner['image'])))
+                                        ? $mother_banner_images
+                                        : null;
+                                @endphp
+                                
+                                @if($mother_banner_images)
+                                    @foreach ($mother_banner_images as $key => $banner_images)
+                                        <div class="col-md-2 mb-3">
+                                            <div class="eImage eCard card">
+                                                <img src="{{ asset('public/uploads/mother_homepage_banner/' . $banner_images['image']) }}" alt="">
+                                                <div class="card-body card_text">
+                                                    <h5>{{ \Illuminate\Support\Str::limit($banner_images['title'], 18, '...') }}</h5>
+                                                </div>
+                                                <div class="eControll d-flex">
+                                                    <a href="javascript:;" onclick="edit_modal('modal-md', '{{ route('admin.mother-banner.edit', ['id' => $banner_images['id']]) }}', '{{ get_phrase('Update Banner') }}')"  data-bs-toggle="tooltip" 
+                                                    title="{{ get_phrase('Edit') }}"> <i class="fas fa-edit"></i>
+                                                 </a>
+                                                 
+                                                 <a href="javascript:;" onclick="delete_modal('{{ route('admin.delete-mother-banner', ['id' => $banner_images['id']]) }}')" 
+                                                    class="mx-1"  data-bs-toggle="tooltip" title="{{ get_phrase('Delete') }}"> <i class="fas fa-trash"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                    <div class="col-md-2 mb-2">
+                                        <div class="eImage"  onclick="modal('modal-md', '{{route('admin.mother.banner')}}', '{{get_phrase('Add New Banner')}}')">
+                                            <span><i class="fas fa-plus"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                         </form>
+                            {{-- Company Images --}}
+                            <form action="{{route('admin.website-setting-update')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="type" value="company_images">
+                                <label for="company_images" class="form-label ol-form-label mt-3">{{get_phrase('Trusted Company')}} (176 X 50)</label>
+                                <div class="row mb-3">
+                                    @php
+                                    $company_images = json_decode(get_frontend_settings('company_images'), true);
+                                    $company_images = is_array($company_images) && !empty(array_filter($company_images, fn($image) => !empty($image['image'])))
+                                        ? $company_images
+                                        : null;
+                                    @endphp
+
+                                    @if($company_images)
+                                        @foreach ($company_images as $key => $company)
+                                            <div class="col-md-2 mb-3">
+                                                <div class="eImage eCard Company card">
+                                                    <img src="{{ asset('public/uploads/company_logo/' . $company['image']) }}" alt="">
+                                                    <div class="eControll d-flex">
+                                                        <a href="javascript:;" onclick="edit_modal('modal-md', '{{ route('admin.company_logo.edit', ['id' => $company['id']]) }}', '{{ get_phrase('Update Company Logo') }}')" data-bs-toggle="tooltip" title="{{ get_phrase('Edit') }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <a href="javascript:;" onclick="delete_modal('{{ route('admin.company_logo.delete', ['id' => $company['id']]) }}')" class="mx-1" data-bs-toggle="tooltip" title="{{ get_phrase('Delete') }}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    <div class="col-md-2 mb-2">
+                                        <div class="eImage eCom" onclick="modal('modal-md', '{{route('admin.company.logo')}}', '{{get_phrase('Add New Company Logo')}}')">
+                                            <span><i class="fas fa-plus"></i></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            {{-- Company Image --}}
                         </div>
                         <div class="tab-pane fade" id="reviews-tab" role="tabpanel"
                             aria-labelledby="reviews">
@@ -343,7 +622,25 @@ document.getElementById('dark_logo').addEventListener('change', function(event) 
 document.getElementById('favicon_logo').addEventListener('change', function(event) {
     handleImagePreview(event.target, '.favicon-logo-preview');
 });
-
+// New Image Show
+document.getElementById('hotel').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.hotel-preview');
+});
+document.getElementById('doctors').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.doctors-preview');
+});
+document.getElementById('car').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.car-preview');
+});
+document.getElementById('beauty').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.beauty-preview');
+});
+document.getElementById('real_estate').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.real_estate-preview');
+});
+document.getElementById('restaurent').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.restaurent-preview');
+});
 </script>
 
 

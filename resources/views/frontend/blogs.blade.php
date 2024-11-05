@@ -6,9 +6,10 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3 class="in-title-2 mt-2 mb-4">Our Latest Blog</h3>
+                <h3 class="in-title-3 fw-semibold mt-30px mb-30px">{{get_phrase('Our Latest Blog')}}</h3>
             </div>
         </div>
+
         <div class="row row-28 mb-90">
             <!-- Blog Area  -->
             <div class="col-xl-8 col-lg-7">
@@ -16,29 +17,22 @@
                 <div class="row row-28 mb-32">
                     @foreach ($blogs as $blog)    
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                        <div class="at-blog-card">
-                            <div class="at-blog-card-image">
-                                <img src="{{asset('public/storage/blog-images/'.$blog->image)}}" alt="banner">
-                            </div>
-                            <div class="at-blog-details">
-                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-14">
-                                    <p class="sml-icontext-1 in-subtitle-2 d-flex align-items-center gap-1">
-                                        <span class="fi-rr-calendar-minus"></span>
-                                        <span>{{date('d M Y', $blog->time)}}</span>
-                                    </p>
-                                    <p class="sml-icontext-1 in-subtitle-2 d-flex align-items-center gap-1">
-                                        <span class="fi-rr-user"></span>
-                                        <span>{{App\Models\User::where('id', $blog->user_id)->first()->name;}}</span>
+                        <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="at-blog-card-link">
+                            <div class="at-blog-card">
+                                <div class="at-blog-card-image">
+                                    <img src="{{asset('public/storage/blog-images/'.$blog->image)}}" alt="banner">
+                                </div>
+                                <div class="at-blog-details">
+                                    <p class="in-subtitle-2 fw-medium mb-14px">{{date('d M Y', $blog->time)}}</p>
+                                    <h4 class="in-title2-18px fw-semibold mb-10px">{{$blog->title}}</h4>
+                                    <p class="in-subtitle-2 fw-medium mb-3">{{substr_replace($blog->description, "...", 70)}}</p>
+                                    <p class="at-blog-link-icontext d-flex align-items-center gap-1">
+                                        <span>{{get_phrase('Read More')}}</span>
+                                        <span class="fi-rr-arrow-small-right"></span>
                                     </p>
                                 </div>
-                                <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="in-title-5 mb-14">{{$blog->title}}</a>
-                                <p class="in-subtitle-2 mb-14 at-blog-subtitle at-border-bottom">{{substr_replace($blog->description, "...", 70)}}</p>
-                                <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="link-icontext-1 d-flex align-items-center gap-1">
-                                    <span>{{get_phrase('Read More')}}</span>
-                                    <span class="fi-rr-arrow-small-right"></span>
-                                </a>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     @endforeach
                 </div>

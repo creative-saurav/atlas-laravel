@@ -3,7 +3,11 @@
 @section('admin_layout')
 
 <link href="{{asset('public/plugin/summernote/summernote-lite.min.css')}}" rel="stylesheet">
-
+<style>
+    .pl-0{
+        padding-left: 0;
+    }
+</style>
 <div class="ol-card radius-8px">
     <div class="ol-card-body my-2 py-12px px-20px">
         <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap flex-md-nowrap">
@@ -48,6 +52,17 @@
             <div class="mb-3">
                 <label for="image" class="form-label ol-form-label"> {{get_phrase('Blog Banner')}} </label>
                 <input type="file" class="form-control form-control-file" name="image" id="image" required>
+            </div>
+            <div class="mb-3">
+                <p class="column-title ol-form-label">{{ get_phrase('Do you want to mark it as popular') }}?</p>
+                <div class="eCheckbox">
+                    <div class="form-check pl-0">
+                        <input class="form-check-label" type="checkbox" value="1" id="is_popular" name="is_popular" />
+                        <label class="form-check-label ol-form-label" for="is_popular">
+                            {{ get_phrase('Mark as popular') }}
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary px-4"> {{get_phrase('Save')}} </button>

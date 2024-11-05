@@ -19,6 +19,7 @@ use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\SeoController;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/hotel/home', [FrontendController::class, 'hotel_home'])->name('hotel.home');
@@ -216,6 +217,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/mother-banner/update/{id}', [SettingController::class, 'MotherBannerUpdate'])->name('admin.mother.website-setting-update'); 
     Route::get('/delete-mother-banner/{id}',[SettingController::class, 'DeleteMotherbanner'])->name('admin.delete-mother-banner');
 
+    // Company Logo  
+    Route::get('/companylogo', [SettingController::class, 'CompanyLogo'])->name('admin.company.logo'); 
+    Route::get('/companylogo/{id}', [SettingController::class, 'CompanyLogoEdit'])->name('admin.company_logo.edit'); 
+    Route::post('/companylogo/update/{id}', [SettingController::class, 'companylogoUpdate'])->name('admin.company.update'); 
+    Route::get('/delete-company-logo/{id}',[SettingController::class, 'Deletecompanylogo'])->name('admin.company_logo.delete');
+
     // Admin User Review Add
 
     Route::get('user/review', [SettingController::class, 'user_review_add'])->name('admin.review.create'); 
@@ -245,7 +252,19 @@ Route::prefix('user')->middleware(['auth'])->group(function () {
 
 
 
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
 
+    return 'Application cache cleared';
+});
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'storage linked successfully';
+});
 
 
 

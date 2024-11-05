@@ -49,6 +49,7 @@ class BlogController extends Controller
         $data['status'] = (auth()->user()->role == 1)? 1 : 0 ;
         $data['created_at'] = Carbon::now();
         $data['updated_at'] = Carbon::now();
+        $data['is_popular'] = $request->is_popular;
         Blog::insert($data);
         Toastr::success(get_phrase('Blog Create successfully!'), get_phrase('Success'));
         if($request->is_agent){
@@ -87,9 +88,10 @@ class BlogController extends Controller
         $data['category'] = $request->category;
         $data['description'] = $request->description;
         $data['keyword'] = $request->keyword;
+        $data['is_popular'] = $request->is_popular;
         $data['updated_at'] = Carbon::now();
         Blog::where('id', $id)->update($data);
-        Toastr::success(get_phrase('Blog Create successfully!'), get_phrase('Success'));
+        Toastr::success(get_phrase('Blog Update successfully!'), get_phrase('Success'));
         if($request->is_agent){
             return redirect('agent/blogs');
         }else{

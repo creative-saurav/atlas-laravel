@@ -12,12 +12,21 @@ use App\Models\Pricing;
 use App\Models\RealEstateListing;
 use App\Models\RestaurantListing;
 use App\Models\User;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     public function index(){
+
+        $page_data['beautyListing'] = BeautyListing::where('visibility','visible')->get();
+        $page_data['restaurantListing'] = RestaurantListing::where('visibility','visible')->get();
+        $page_data['realEstateListing'] = RealEstateListing::where('visibility','visible')->get();
+        $page_data['hotelListing'] = HotelListing::where('visibility','visible')->get();
+        $page_data['carListing'] = CarListing::where('visibility','visible')->get();
         $page_data['categories'] = Category::all();
+        $page_data['reviews'] = Review::all();
+        $page_data['blogs'] = Blog::where('status', 1)->where('is_popular', 1)->take(3)->get();
         return view('frontend.index',$page_data);
     }
 

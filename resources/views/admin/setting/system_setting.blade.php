@@ -107,6 +107,10 @@
                     <label for="default_location" class="form-label ol-form-label">{{ get_phrase('Default location') }}</label>
                     <input type="text" class="form-control ol-form-control" value="{{ get_settings('default_location') }}" id="default_location" name = "default_location" required>
                 </div>
+                <div class="mb-3">
+                    <label for="default_location" class="form-label ol-form-label">{{ get_phrase('Footer Text') }}</label>
+                    <input type="text" name="footer_text" id="footer_text" class="form-control ol-form-control" value="{{ get_settings('footer_text') }}">
+                </div>
                 <button type="submit" class="btn btn-primary fs-14px"> {{get_phrase('Update')}} </button>
             </form>
             </div>

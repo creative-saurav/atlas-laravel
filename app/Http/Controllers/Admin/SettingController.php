@@ -156,6 +156,17 @@ class SettingController extends Controller
                 'value' => $data['currency_position'],
             ]);
         }
+        if(System_setting::where('key', 'footer_text')->get()->count() > 0) {
+            System_setting::where('key', 'footer_text')->update([
+                'key' => 'footer_text',
+                'value' => $data['footer_text'],
+            ]);
+        } else {
+            System_setting::create([
+                'key' => 'footer_text',
+                'value' => $data['footer_text'],
+            ]);
+        }
         Toastr::success(get_phrase('Setting update successfully!'), get_phrase('Success'));
         return redirect()->back();
     }
@@ -381,6 +392,41 @@ class SettingController extends Controller
     
         Toastr::success(get_phrase('Setting updated successfully!'), get_phrase('Success'));
     }
+
+    if ($request->type == 'company_images') {
+        $existingData = FrontendSettings::where('key', 'company_images')->first();
+        $company_images = $existingData && isset($existingData->value)
+            ? json_decode($existingData->value, true) ?? []
+            : [];
+        
+        $data = $request->all();
+        $newCompanyImages = [];
+        
+        foreach ($data['images'] as $key => $image) {
+            $bannerId = !empty($company_images) ? max(array_column($company_images, 'id')) + 1 : 1;
+            $banner = ['id' => $bannerId];
+            if (!empty($data['images'][$key])) {
+                $imageName = time() . '_' . uniqid() . '.' . $data['images'][$key]->getClientOriginalExtension();
+                $data['images'][$key]->move(public_path('uploads/company_logo/'), $imageName);
+                $banner['image'] = $imageName;
+            } else {
+                $banner['image'] = $data['previous_images'][$key] ?? '';
+            }
+    
+            $newCompanyImages[] = $banner;
+        }
+        $updatedCompanyImages = array_merge($company_images, $newCompanyImages);
+        FrontendSettings::updateOrCreate(
+            ['key' => 'company_images'],
+            ['value' => json_encode($updatedCompanyImages)]
+        );
+    
+        // Success message
+        Toastr::success(get_phrase('Company Logos updated successfully!'), get_phrase('Success'));
+        return back();
+    }
+    
+    
   
     if ($request->type == 'light_logo') {
         if ($request->hasFile('light_logo')) {
@@ -432,7 +478,103 @@ class SettingController extends Controller
             Toastr::error(get_phrase('No file uploaded for Dark Logo!'), get_phrase('Error'));
         }
     }
-    
+
+    if ($request->type == 'hotel') {
+        if ($request->hasFile('hotel')) {
+            $existing_logo = get_frontend_settings('hotel');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('hotel');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'hotel')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Hotel image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Hotel!'), get_phrase('Error'));
+        }
+    }
+    if ($request->type == 'doctors') {
+        if ($request->hasFile('doctors')) {
+            $existing_logo = get_frontend_settings('doctors');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('doctors');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'doctors')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Doctors image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Doctors!'), get_phrase('Error'));
+        }
+    }
+    if ($request->type == 'car') {
+        if ($request->hasFile('car')) {
+            $existing_logo = get_frontend_settings('car');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('car');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'car')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Car image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Car!'), get_phrase('Error'));
+        }
+    }
+    if ($request->type == 'beauty') {
+        if ($request->hasFile('beauty')) {
+            $existing_logo = get_frontend_settings('beauty');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('beauty');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'beauty')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Beauty image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Beauty!'), get_phrase('Error'));
+        }
+    }
+    if ($request->type == 'real_estate') {
+        if ($request->hasFile('real_estate')) {
+            $existing_logo = get_frontend_settings('real_estate');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('real_estate');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'real_estate')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Real Estate image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Real Estate!'), get_phrase('Error'));
+        }
+    }
+    if ($request->type == 'restaurent') {
+        if ($request->hasFile('restaurent')) {
+            $existing_logo = get_frontend_settings('restaurent');
+            if ($existing_logo && file_exists(public_path('uploads/category_type/' . $existing_logo))) {
+                unlink(public_path('uploads/category_type/' . $existing_logo));
+            }
+                $upload_path = public_path('uploads/category_type/');
+                $file = $request->file('restaurent');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($upload_path, $logo_filename);
+                FrontendSettings::where('key', 'restaurent')->update(['value' => $logo_filename]);
+                Toastr::success(get_phrase('Restaurent image updated successfully!'), get_phrase('Success'));
+        } else {
+            Toastr::error(get_phrase('No file uploaded for Restaurent!'), get_phrase('Error'));
+        }
+    }
 
     return redirect()->back();
 }
@@ -514,6 +656,87 @@ class SettingController extends Controller
      return redirect()->back();
  }
  
+
+
+//  Company Logo
+public function CompanyLogo(){
+    return view('admin.setting.company_logo_add');
+ } 
+ public function CompanyLogoEdit($id)
+ {
+     $CompanyLogoEdit = json_decode(get_frontend_settings('company_images'), true);
+     $logoEdit = collect($CompanyLogoEdit)->firstWhere('id', $id);
+     return view('admin.setting.company_logo_edit', compact('logoEdit'));
+ }
+ 
+ public function companylogoUpdate(Request $request, $id)
+ {
+     $existingData = FrontendSettings::where('key', 'company_images')->first();
+     $company_images = $existingData ? json_decode($existingData->value, true) : [];
+ 
+     foreach ($company_images as &$banner) {
+         if ($banner['id'] == $id) {
+             if ($request->hasFile('images') && $request->images[0]) {
+                 $oldImagePath = public_path('uploads/company_logo/' . $banner['image']);
+                 if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                     unlink($oldImagePath); 
+                 }
+                 $imageName = time() . '_' . uniqid() . '.' . $request->images[0]->getClientOriginalExtension();
+                 $request->images[0]->move(public_path('uploads/company_logo/'), $imageName);
+                 $banner['image'] = $imageName; 
+             }
+             break;
+         }
+     }
+     FrontendSettings::updateOrCreate(
+         ['key' => 'company_images'],
+         ['value' => json_encode($company_images)]
+     );
+     Toastr::success(get_phrase('Company logo updated successfully!'), get_phrase('Success'));
+     return redirect()->back();
+ }
+ 
+
+
+ public function Deletecompanylogo($id)
+ {
+     $existingData = FrontendSettings::where('key', 'company_images')->first();
+     if ($existingData) {
+         $company_images = json_decode($existingData->value, true);
+         $index = array_search($id, array_column($company_images, 'id'));
+         
+         if ($index !== false) {
+             $imagePath = public_path('uploads/company_logo/' . $company_images[$index]['image']);
+             if (file_exists($imagePath)) {
+                 unlink($imagePath);
+             }
+             
+             unset($company_images[$index]);
+             
+             $company_images = array_values($company_images);
+             FrontendSettings::updateOrCreate(
+                 ['key' => 'company_images'],
+                 ['value' => json_encode($company_images)]
+             );
+ 
+             Toastr::success(get_phrase('Company Logo Delete successfully!'), get_phrase('Success'));
+         } else {
+             Toastr::error(get_phrase('Banner not found!'), get_phrase('Error'));
+         }
+     } else {
+         Toastr::error(get_phrase('No existing banners found!'), get_phrase('Error'));
+     }
+ 
+     return redirect()->back();
+ }
+
+
+
+
+
+
+
+
 
 
 

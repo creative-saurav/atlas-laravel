@@ -25,3 +25,12 @@
 .mh-category-content .in-title-18px{
     text-transform: capitalize;
 }
+.image-circle-58px img{
+    height: 58px;
+    width: 58px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.at-blog-card-image img {
+	height: 280px;
+}

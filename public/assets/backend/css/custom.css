@@ -1383,7 +1383,7 @@ input.daterangepicker {
 
 /*****************************************/
 .eImage span {
-	height: 126px;
+	height: 160px;
 	width: 100%;
 	border-radius: 5px;
 	border: dashed !important;
@@ -1391,6 +1391,7 @@ input.daterangepicker {
 	justify-content: center;
 	align-items: center;
 	border-color:  #90baf0 !important;
+    cursor: pointer;
 }
 .eImage span i {
 	font-size: 20px;
@@ -1413,7 +1414,7 @@ input.daterangepicker {
 }
 
 .eCard img{
-    height: 127px;
+    height: 160px;
     object-fit: cover;
     width: 100%;
     border-radius: 5px;
@@ -1475,4 +1476,30 @@ input.daterangepicker {
 
 .min-w-150px{
     width: 150px;
+}
+.bg-dark_2 {
+	border: 1px solid #eee;
+	background: #eee;
+	border-radius: 12px;
+}
+.h-360{
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.Company{
+    padding: 16px;
+}
+.Company img{
+    height: 50px;
+    object-fit: contain;
+}
+.eCom span{
+    height: 80px;
+}
+.eCom span i {
+	font-size: 18px;
+	height: 44px;
+	width: 44px;
+	line-height: 44px;
 }

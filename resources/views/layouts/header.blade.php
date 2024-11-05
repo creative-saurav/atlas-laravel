@@ -6,7 +6,11 @@
                 <div class="main-header-area d-flex align-items-center justify-content-between">
                     <div class="header-logo">
                         <a href="{{route('home')}}">
-                            <img src="{{ asset('public/assets/frontend/images/logo.svg') }}" alt="logo">
+                            @if(get_frontend_settings('light_logo'))
+                                <img src="{{ asset('public/uploads/logo/' . get_frontend_settings('light_logo')) }}" alt="" class="radious-15px px-2 py-2 light-logo-preview h-77">
+                            @else
+                                <img src="{{ asset('public/uploads/logo/light_logo.svg') }}" alt="" class="radious-15px px-2 py-2 light-logo-preview h-77">
+                            @endif
                         </a>
                     </div>
                     <div class="header-right-area d-flex align-items-center">

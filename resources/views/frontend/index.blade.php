@@ -5,58 +5,34 @@
         <!-- Banner slider -->
         <div class="swiper banner-slider">
             <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner1.webp")}}');">
-                        <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Your Gateway to Comfort & Adventure</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
+                @php
+                $homeBanner = json_decode(get_frontend_settings('mother_homepage_banner'), true);
+               @endphp
+            
+            @if(!empty($homeBanner) && is_array($homeBanner))
+                @foreach($homeBanner as $banner)
+                    <div class="swiper-slide">
+                        <div class="banner-slider-wrap" style="background-image: url('{{ asset('public/uploads/mother_homepage_banner/' . $banner['image']) }}');">
+                            <div class="banner-slider-content">
+                                <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">{{ $banner['title'] }}</h1>
+                                <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">{{ $banner['description'] }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-
+                @endforeach
+            @else
+                {{-- Fallback design when no banners are available
                 <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner2.webp")}}');">
+                    <div class="banner-slider-wrap" style="background-image: url('{{ asset('public/assets/frontend/images/home/home-banner1.webp') }}');">
                         <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Where Every Meal is a Celebration</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
+                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Your Default Banner Title</h1>
+                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">Default banner description goes here.</p>
                         </div>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner3.webp")}}');">
-                        <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Compassionate Healthcare You Can Trust</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner4.webp")}}');">
-                        <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Discover Your Dream Ride Today</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner5.webp")}}');">
-                        <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Find Your Dream Home Today</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="banner-slider-wrap" style="background-image: url('{{asset("public/assets/frontend/images/home/home-banner6.webp")}}');">
-                        <div class="banner-slider-content">
-                            <h1 class="mb-3 lg-title-78px text-white text-capitalize text-center">Discover the Essence of True Beauty</h1>
-                            <p class="in-subtitle-16px text-white text-center max-w-621px mx-auto">On the top advertising a Courses available business to online includes assembling  site on top advertising Courses includes .</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </div> --}}
+            @endif
+            
+              </div>
             <div class="swiper-pagination"></div>
         </div>
     </div>
@@ -201,24 +177,91 @@
                 </div>
             </div>
             <div class="row g-12px mb-100px row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
-                @foreach($categories as $category)
+            
                 <div class="col">
                     <a href="#" class="mh-category-link">
                         <div class="mh-single-category">
-                            <img class="banner" src="{{asset('public/assets/frontend/images/home/mh-category-banner1.webp')}}" alt="">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('hotel'))}}" alt="">
                             <div class="mh-category-content">
                                 <div class="white-iconbox-radio mb-12px mx-auto">
                                     <img src="{{asset('public/assets/frontend/images/icons/briefcase-purple-28.svg')}}" alt="">
                                 </div>
-                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{$category->type}}</h4>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Hotel')}}</h4>
+                                <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{count($hotelListing)}} {{get_phrase('Listing')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mh-category-link">
+                        <div class="mh-single-category">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('restaurent'))}}" alt="">
+                            <div class="mh-category-content">
+                                <div class="white-iconbox-radio mb-12px mx-auto">
+                                    <img src="{{asset('public/assets/frontend/images/icons/bell-purple-28.svg')}}" alt="">
+                                </div>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Reataurent')}}</h4>
+                                <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{count($restaurantListing)}} {{get_phrase('Listing')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mh-category-link">
+                        <div class="mh-single-category">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('car'))}}" alt="">
+                            <div class="mh-category-content">
+                                <div class="white-iconbox-radio mb-12px mx-auto">
+                                    <img src="{{asset('public/assets/frontend/images/icons/car-purple-28.svg')}}" alt="">
+                                </div>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Car')}}</h4>
+                                <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{count($carListing)}} {{get_phrase('Listing')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mh-category-link">
+                        <div class="mh-single-category">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('doctors'))}}" alt="">
+                            <div class="mh-category-content">
+                                <div class="white-iconbox-radio mb-12px mx-auto">
+                                    <img src="{{asset('public/assets/frontend/images/icons/hart-plus-purple-28.svg')}}" alt="">
+                                </div>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Doctors')}}</h4>
                                 <p class="text-center text-white in-subtitle-14px fw-medium lh-1">103 Listing</p>
                             </div>
                         </div>
                     </a>
                 </div>
-                @endforeach
-
-
+                <div class="col">
+                    <a href="#" class="mh-category-link">
+                        <div class="mh-single-category">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('real_estate'))}}" alt="">
+                            <div class="mh-category-content">
+                                <div class="white-iconbox-radio mb-12px mx-auto">
+                                    <img src="{{asset('public/assets/frontend/images/icons/buildings-purple-28.svg')}}" alt="">
+                                </div>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Real Estate')}}</h4>
+                                <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{count($realEstateListing)}} {{get_phrase('Listing')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mh-category-link">
+                        <div class="mh-single-category">
+                            <img class="banner" src="{{ asset('public/uploads/category_type/' . get_frontend_settings('beauty'))}}" alt="">
+                            <div class="mh-category-content">
+                                <div class="white-iconbox-radio mb-12px mx-auto">
+                                    <img src="{{asset('public/assets/frontend/images/icons/magicpen-purple-28.svg')}}" alt="">
+                                </div>
+                                <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{get_phrase('Beauty')}}</h4>
+                                <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{count($beautyListing)}} {{get_phrase('Listing')}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
 
             </div>
         </div>
@@ -231,7 +274,7 @@
         <div class="container">
             <div class="row mb-30px">
                 <div class="col-12">
-                    <h1 class="in-title-36px text-center text-capitalize lh-1">Featured Listings</h1>
+                    <h1 class="in-title-36px text-center text-capitalize lh-1">{{get_phrase('Featured Listings')}}</h1>
                 </div>
             </div>
             <div class="row mb-30px">
@@ -578,39 +621,23 @@
         <div class="container">
             <div class="row mb-50px">
                 <div class="col-12">
-                    <h1 class="in-title-36px text-center text-capitalize max-w-538px mx-auto">We Have Worked with <span class="mh-title-highlight">10,000+</span> Trusted Companies</h1>
+                    <h1 class="in-title-36px text-center text-capitalize max-w-538px mx-auto">{{get_phrase('We Have Worked with ')}}<span class="mh-title-highlight">{{get_phrase('10,000')}}+</span>{{get_phrase(' Trusted Companies')}}</h1>
                 </div>
             </div>
             <div class="row mb-100px">
                 <div class="col-12">
                     <div>
                         <ul class="trusted-companies-wrap">
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo1.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo2.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo3.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo4.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo5.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo6.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo7.svg')}}" alt="logo">
-                            </a></li>
-                            <li><a href="#">
-                                <img src="{{asset('public/assets/frontend/images/home/company-logo8.svg')}}" alt="logo">
-                            </a></li>
-                           
-                            
+                            @php
+                            $company_images = json_decode(get_frontend_settings('company_images'), true);
+                           @endphp
+                            @if(!empty($company_images) && is_array($company_images))
+                                @foreach($company_images as $images)
+                                    <li><a href="javascript:;">
+                                        <img src="{{ asset('public/uploads/company_logo/' . $images['image']) }}" alt="">
+                                    </a></li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -625,7 +652,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="in-title-36px text-center text-capitalize">What the people Thinks About Us</h1>
+                    <h1 class="in-title-36px text-center text-capitalize">{{get_phrase('What the people Thinks About Us')}}</h1>
                 </div>
             </div>
         </div>
@@ -633,90 +660,37 @@
             <!-- Swiper -->
             <div class="swiper mh-testimonial">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="mh-testimonial-single">
-                            <div class="d-flex gap-10px align-items-start mb-3">
-                                <div class="image-circle-58px">
-                                    <img src="{{asset("public/assets/frontend/images/home/mh-user-sm1.svg")}}" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="in-title-16px at-text-dark mb-2">Bessie Cooper</h6>
-                                    <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary mb-2">10:00 PM</p>
-                                    <div class="d-flex align-items-center mh-testimonial-stars">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
+                   @if(count($reviews) > 0)
+                        @foreach($reviews as $review )
+                        @php 
+                            $users = App\Models\User::where('id', $review->user_id)->first();
+                        @endphp
+                        <div class="swiper-slide">
+                            <div class="mh-testimonial-single">
+                                <div class="d-flex gap-10px align-items-start mb-3">
+                                    <div class="image-circle-58px">
+                                        <img src="{{ get_image('public/storage/users/' . $users['image']) }}" alt="">
+                                    </div>
+                                    <div>
+                                        <h6 class="in-title-16px at-text-dark mb-2">{{$users->name}}</h6>
+                                        <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary mb-2">{{ \Carbon\Carbon::parse($review->created_at)->format('h:i A') }}
+                                        </p>
+                                        <div class="d-flex align-items-center mh-testimonial-stars">
+                                              @for($i = 1; $i <= 5; $i++ )
+                                                   @if($i <= $review->rating)
+                                                        <img src="{{ asset('public/assets/frontend/images/icons/star-yellow-17.svg') }}" alt="">
+                                                        @else
+                                                        <img src="{{ asset('public/assets/frontend/images/icons/star-gray-17.svg') }}" alt="">
+                                                     @endif
+                                               @endfor   
+                                        </div>
                                     </div>
                                 </div>
+                                <p class="in-subtitle-16px at-text-secondary">{{$review->review}}</p>
                             </div>
-                            <p class="in-subtitle-16px at-text-secondary">We strive to develop real-world web solutions that are ideal for small to large projects with bespoke project requirements.</p>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="mh-testimonial-single">
-                            <div class="d-flex gap-10px align-items-start mb-3">
-                                <div class="image-circle-58px">
-                                    <img src="{{asset("public/assets/frontend/images/home/mh-user-sm2.svg")}}" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="in-title-16px at-text-dark mb-2">Theresa Webb</h6>
-                                    <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary mb-2">10:00 PM</p>
-                                    <div class="d-flex align-items-center mh-testimonial-stars">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="in-subtitle-16px at-text-secondary">The gently curved lines accentuated by sewn details are kind to your body and pleasant to look at. Also, there’s a tilt and height-adjusting mechanism.</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="mh-testimonial-single">
-                            <div class="d-flex gap-10px align-items-start mb-3">
-                                <div class="image-circle-58px">
-                                    <img src="{{asset("public/assets/frontend/images/home/mh-user-sm3.svg")}}" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="in-title-16px at-text-dark mb-2">Devon Lane</h6>
-                                    <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary mb-2">10:00 PM</p>
-                                    <div class="d-flex align-items-center mh-testimonial-stars">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="in-subtitle-16px at-text-secondary">Awesome  site on the top advertising business advertising online Having the most well-planned on the top business advertising</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="mh-testimonial-single">
-                            <div class="d-flex gap-10px align-items-start mb-3">
-                                <div class="image-circle-58px">
-                                    <img src="{{asset("public/assets/frontend/images/home/mh-user-sm4.svg")}}" alt="">
-                                </div>
-                                <div>
-                                    <h6 class="in-title-16px at-text-dark mb-2">Ralph Edwards</h6>
-                                    <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary mb-2">10:00 PM</p>
-                                    <div class="d-flex align-items-center mh-testimonial-stars">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-yellow-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                        <img src="assets/images/icons/star-gray-17.svg" alt="star">
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="in-subtitle-16px at-text-secondary">Awesome  site on the top advertising business advertising online Having the most well-planned on the top business advertising</p>
-                        </div>
-                    </div>
+                        @endforeach
+                   @endif
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -730,30 +704,36 @@
         <div class="container">
             <div class="row mb-30px">
                 <div class="col-12">
-                    <h1 class="in-title-36px text-center text-capitalize">Pickup New Updates</h1>
+                    <h1 class="in-title-36px text-center text-capitalize">{{get_phrase('Pickup New Updates')}}</h1>
                 </div>
             </div>
             <div class="row mb-100px g-4">
+                @if(count($blogs) > 0)
+                @foreach($blogs as $blog)
+                @php 
+                   $category_name = App\Models\Blog_category::where('id', $blog->category)->first();
+                   $usersBlog = App\Models\User::where('id', $blog->user_id)->first();
+                @endphp
                 <div class="col-lg-4 col-md-6">
-                    <a href="#" class="mh-blog-link max-w-md-450px mx-auto">
+                    <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="mh-blog-link max-w-md-450px mx-auto">
                         <div class="mh-blog-card">
                             <div class="mh-blog-card-image">
-                                <img src="{{asset('public/assets/frontend/images/home/mh-blog-banner1.webp')}}" alt="banner">
+                                <img src="{{get_image('public/storage/blog-images/'.$blog->image)}}" alt="">
                             </div>
                             <div class="p-20px">
-                                <p class="at-category-badge mb-12px">Category</p>
+                                <p class="at-category-badge mb-12px">{{$category_name->name}}</p>
                                 <div class="mh-blog-titles mb-2 pb-3">
-                                    <h4 class="in-title-20px fw-semibold at-text-dark mb-12px">How to Book a Room online</h4>
-                                    <p class="in-subtitle-16px at-text-secondary">There are many variations of passages of available but the majority.</p>
+                                    <h4 class="in-title-20px fw-semibold at-text-dark mb-12px">{{$blog->title}}</h4>
+                                    <p class="in-subtitle-16px at-text-secondary"><p> {{ Str::limit(strip_tags($blog->description), 80) }}</p></p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between gap-3">
                                     <div class="d-flex align-items-center gap-10px">
                                         <div class="image-circle-40px">
-                                            <img src="{{asset('public/assets/frontend/images/home/mh-user-sm-5.svg')}}" alt="">
+                                            <img src="{{ get_image('public/storage/users/' . $usersBlog['image']) }}" alt="">
                                         </div>
                                         <div>
-                                            <h6 class="in-title-16px at-text-dark mb-2">Courtney Henry</h6>
-                                            <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary">February 2, 2024</p>
+                                            <h6 class="in-title-16px at-text-dark mb-2">{{$usersBlog->name}}</h6>
+                                            <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary">{{ \Carbon\Carbon::parse($blog->created_at)->format('F j, Y ') }}</p>
                                         </div>
                                     </div>
                                     <div class="mh-blog-arrow">
@@ -773,92 +753,13 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <a href="#" class="mh-blog-link max-w-md-450px mx-auto">
-                        <div class="mh-blog-card">
-                            <div class="mh-blog-card-image">
-                                <img src="{{asset('public/assets/frontend/images/home/mh-blog-banner2.webp')}}" alt="banner">
-                            </div>
-                            <div class="p-20px">
-                                <p class="at-category-badge mb-12px">Featured</p>
-                                <div class="mh-blog-titles mb-2 pb-3">
-                                    <h4 class="in-title-20px fw-semibold at-text-dark mb-12px">Traveler on our Hotel</h4>
-                                    <p class="in-subtitle-16px at-text-secondary">some form by injected randomised words which don’t look believable now.</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between gap-3">
-                                    <div class="d-flex align-items-center gap-10px">
-                                        <div class="image-circle-40px">
-                                            <img src="{{asset('public/assets/frontend/images/home/mh-user-sm-6.svg')}}" alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="in-title-16px at-text-dark mb-2">Kathryn Murphy</h6>
-                                            <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary">February 2, 2024</p>
-                                        </div>
-                                    </div>
-                                    <div class="mh-blog-arrow">
-                                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_272_1797)">
-                                              <path d="M20.6508 5.70479L9.92639 5.70479C9.64237 5.70973 9.37166 5.82602 9.17255 6.02862C8.97345 6.23121 8.86188 6.50391 8.86188 6.78796C8.86188 7.07202 8.97345 7.34471 9.17255 7.54731C9.37166 7.74991 9.64237 7.8662 9.92639 7.87113L18.0356 7.87113L4.56416 21.3426C4.36099 21.5457 4.24686 21.8213 4.24686 22.1086C4.24686 22.3959 4.36099 22.6715 4.56416 22.8746C4.76732 23.0778 5.04287 23.1919 5.33019 23.1919C5.61751 23.1919 5.89306 23.0778 6.09622 22.8746L19.5677 9.4032L19.5677 17.5124C19.5652 17.6562 19.5913 17.7991 19.6446 17.9327C19.698 18.0663 19.7773 18.188 19.8782 18.2906C19.979 18.3932 20.0993 18.4747 20.2319 18.5303C20.3646 18.5859 20.507 18.6146 20.6508 18.6146C20.7947 18.6146 20.9371 18.5859 21.0698 18.5303C21.2024 18.4747 21.3227 18.3932 21.4235 18.2906C21.5243 18.188 21.6037 18.0663 21.657 17.9327C21.7103 17.7991 21.7365 17.6562 21.734 17.5124L21.734 6.78796C21.734 6.5007 21.6198 6.22522 21.4167 6.02209C21.2136 5.81897 20.9381 5.70483 20.6508 5.70479Z" fill="#7E7E89"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_272_1797">
-                                                <rect width="26" height="26" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <a href="#" class="mh-blog-link max-w-md-450px mx-auto">
-                        <div class="mh-blog-card">
-                            <div class="mh-blog-card-image">
-                                <img src="{{asset('public/assets/frontend/images/home/mh-blog-banner3.webp')}}" alt="">
-                            </div>
-                            <div class="p-20px">
-                                <p class="at-category-badge mb-12px">Category</p>
-                                <div class="mh-blog-titles mb-2 pb-3">
-                                    <h4 class="in-title-20px fw-semibold at-text-dark mb-12px">Snowy Mountains Trip</h4>
-                                    <p class="in-subtitle-16px at-text-secondary">Lorem ipsum dolor sit amet, consectetur to adipiscing elit.</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between gap-3">
-                                    <div class="d-flex align-items-center gap-10px">
-                                        <div class="image-circle-40px">
-                                            <img src="{{asset('public/assets/frontend/images/home/mh-user-sm-7.svg')}}" alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="in-title-16px at-text-dark mb-2">Eleanor Pena</h6>
-                                            <p class="in-subtitle-14px lh-1 fw-medium at-text-secondary">February 2, 2024</p>
-                                        </div>
-                                    </div>
-                                    <div class="mh-blog-arrow">
-                                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_272_1797)">
-                                              <path d="M20.6508 5.70479L9.92639 5.70479C9.64237 5.70973 9.37166 5.82602 9.17255 6.02862C8.97345 6.23121 8.86188 6.50391 8.86188 6.78796C8.86188 7.07202 8.97345 7.34471 9.17255 7.54731C9.37166 7.74991 9.64237 7.8662 9.92639 7.87113L18.0356 7.87113L4.56416 21.3426C4.36099 21.5457 4.24686 21.8213 4.24686 22.1086C4.24686 22.3959 4.36099 22.6715 4.56416 22.8746C4.76732 23.0778 5.04287 23.1919 5.33019 23.1919C5.61751 23.1919 5.89306 23.0778 6.09622 22.8746L19.5677 9.4032L19.5677 17.5124C19.5652 17.6562 19.5913 17.7991 19.6446 17.9327C19.698 18.0663 19.7773 18.188 19.8782 18.2906C19.979 18.3932 20.0993 18.4747 20.2319 18.5303C20.3646 18.5859 20.507 18.6146 20.6508 18.6146C20.7947 18.6146 20.9371 18.5859 21.0698 18.5303C21.2024 18.4747 21.3227 18.3932 21.4235 18.2906C21.5243 18.188 21.6037 18.0663 21.657 17.9327C21.7103 17.7991 21.7365 17.6562 21.734 17.5124L21.734 6.78796C21.734 6.5007 21.6198 6.22522 21.4167 6.02209C21.2136 5.81897 20.9381 5.70483 20.6508 5.70479Z" fill="#7E7E89"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_272_1797">
-                                                <rect width="26" height="26" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
+                @endif
             </div>
         </div>
     </section>
     <!-- End Blog Area -->
    
-
-
-    
 @endsection
 @push('js')
 <script src="{{ asset('public/assets/frontend/js/swiper-bundle.min.js') }}"></script>

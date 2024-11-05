@@ -1,7 +1,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> @yield('title') </title>
-    <link rel="shortcut icon" href="{{ asset('public/assets/frontend/images/favicon.svg') }}" type="image/x-icon">
+    
+    @if(get_frontend_settings('favicon_logo'))
+    <link rel="shortcut icon" href="{{ asset('public/uploads/logo/' . get_frontend_settings('favicon_logo')) }}" type="image/x-icon">
+    @else
+        <link rel="shortcut icon" href="{{ asset('public/uploads/logo/favicon.svg') }}" type="image/x-icon">
+    @endif
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('public/assets/frontend/vendors/bootstrap/bootstrap.min.css') }}">
     <!-- Nice Select -->
