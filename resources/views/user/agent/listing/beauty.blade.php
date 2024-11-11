@@ -13,7 +13,7 @@
           <button class="nav-link" id="pills-media-tab" data-bs-toggle="pill" data-bs-target="#pills-media" type="button" role="tab" aria-controls="pills-media" aria-selected="false">Media</button>
         </li>
     </ul>
-    <form action="{{route('admin.listing.store',['type'=>'beauty'])}}" id="form-action" method="post" enctype="multipart/form-data">
+    <form action="{{route('user.listing.store',['type'=>'beauty'])}}" id="form-action" method="post" enctype="multipart/form-data"> 
     @csrf
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-basic-info" role="tabpanel" aria-labelledby="pills-basic-info-tab" tabindex="0">
@@ -43,6 +43,15 @@
                             <option value="hidden"> {{get_phrase('Hidden')}} </option>
                         </select>
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="is_popular" class="form-label cap-form-label"> {{get_phrase('Type')}} *</label>
+                    <select name="is_popular" id="is_popular" class="at-select2 cap-select2 select2-hidden-accessible" required data-minimum-results-for-search="Infinity">
+                        <option value=""> {{get_phrase('Select Type')}} </option>
+                        <option value="popular"> {{get_phrase('popular')}} </option>
+                        <option value="best"> {{get_phrase('Best')}} </option>
+                        <option value="wellness "> {{get_phrase('Wellness ')}} </option>
+                    </select>
                 </div>
             </div>
             <div class="mb-2">

@@ -1503,3 +1503,9 @@ input.daterangepicker {
 	width: 44px;
 	line-height: 44px;
 }
+.h-200{
+    height: 200px;
+}
+.cover{
+    object-fit: cover;
+}

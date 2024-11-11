@@ -34,3 +34,14 @@
 .at-blog-card-image img {
 	height: 280px;
 }
+.close{
+    color: #e64949 !important;
+}
+.bt-status-badge{
+    text-transform: capitalize;
+}
+.bt-bgimg-card{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

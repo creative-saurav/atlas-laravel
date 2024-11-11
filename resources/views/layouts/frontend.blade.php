@@ -87,11 +87,11 @@
     <!-- End Header Top -->
 
     @if(!empty($directory))
-        @include('layouts.'. $directory . '.header')
+        @include('layouts.'. $directory. '.header')
     @else
         @include('layouts.header')
     @endif
-
+ 
     @yield('frontend_layout')
 
     @if(!empty($directory))

@@ -4,7 +4,7 @@
       <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true"> {{get_phrase('Basic Info')}} </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="addresh-tab" data-bs-toggle="tab" data-bs-target="#addresh" type="button" role="tab" aria-controls="addresh" aria-selected="false"> {{get_phrase('Addresh')}} </button>
+      <button class="nav-link" id="addresh-tab" data-bs-toggle="tab" data-bs-target="#addresh" type="button" role="tab" aria-controls="addresh" aria-selected="false"> {{get_phrase('Address')}} </button>
     </li>
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button" role="tab" aria-controls="seo" aria-selected="false"> {{get_phrase('Seo')}} </button>
@@ -34,6 +34,15 @@
                     <option value=""> {{get_phrase('Select listing visibility')}} </option>
                     <option value="visible"> {{get_phrase('Visible')}} </option>
                     <option value="hidden"> {{get_phrase('Hidden')}} </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="is_popular" class="form-label ol-form-label"> {{get_phrase('Type')}} *</label>
+                <select name="is_popular" id="is_popular" class="form-control ol-form-control ol-select2" required data-minimum-results-for-search="Infinity">
+                    <option value=""> {{get_phrase('Select Type')}} </option>
+                    <option value="popular"> {{get_phrase('popular')}} </option>
+                    <option value="best"> {{get_phrase('Best')}} </option>
+                    <option value="wellness "> {{get_phrase('Wellness ')}} </option>
                 </select>
             </div>
         </div>

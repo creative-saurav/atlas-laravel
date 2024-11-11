@@ -188,7 +188,7 @@ $(document).ready(function(){
       },
     });
   }
-
+ 
   // Main home page slider 
   if ($banner_slider.length > 0){
     var bannerswiper = new Swiper(".banner-slider", {
@@ -282,6 +282,19 @@ $(document).ready(function(){
         }
     });
   }
+
+  if ($('.mixitup2').length > 0) {
+    var containerEls = document.querySelector('.mixitup2'); 
+    var mixers = mixitup(containerEls, {
+        load: {
+            filter: '.hotel'
+        },
+        animation: {
+            effectsIn: 'fade translateY(-100%)',
+            effects: 'fade translateZ(-100px)'
+        }
+    });
+ }
 
   // Select 2
   if ($select2.length > 0){

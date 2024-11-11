@@ -62,6 +62,18 @@
                             <option value="hidden" {{($listing->visibility == 'hidden')?'selected':''}}> {{get_phrase('Hidden')}} </option>
                         </select>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="is_popular" class="form-label ol-form-label"> {{get_phrase('Type')}} *</label>
+                        <select name="is_popular" id="is_popular" class="form-control ol-form-control ol-select2" required data-minimum-results-for-search="Infinity">
+                            <option value=""> {{get_phrase('Select  type')}} </option>
+                            <option value="popular" {{($listing->is_popular == 'popular')?'selected':''}}> {{get_phrase('Popular')}} </option>
+                            <option value="best" {{($listing->is_popular == 'best')?'selected':''}}> {{get_phrase('Best')}} </option>
+                            <option value="wellness" {{($listing->is_popular == 'wellness')?'selected':''}}> {{get_phrase('Wellness')}} </option>
+                           
+                        </select>
+                    </div>
+                   
                 </div>
                 <div class="tab-pane fade show {{($tab == 'service')?'active':''}}" id="services" role="tabpanel" aria-labelledby="services-tab">
                     <div class="d-flex align-items-center justify-content-between mb-3">

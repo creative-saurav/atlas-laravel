@@ -136,6 +136,16 @@
                                     <option value="hidden" {{'hidden' == $listing->visibility?'selected':''}}> {{get_phrase('Hidden')}} </option>
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="is_popular" class="form-label cap-form-label"> {{get_phrase('Type')}} *</label>
+                                <select name="is_popular" id="is_popular" class="at-select2 cap-select2 select2-hidden-accessible" required data-minimum-results-for-search="Infinity">
+                                    <option value=""> {{get_phrase('Select  type')}} </option>
+                                    <option value="popular" {{($listing->is_popular == 'popular')?'selected':''}}> {{get_phrase('Popular')}} </option>
+                                    <option value="best" {{($listing->is_popular == 'best')?'selected':''}}> {{get_phrase('Best')}} </option>
+                                    <option value="wellness" {{($listing->is_popular == 'wellness')?'selected':''}}> {{get_phrase('Wellness')}} </option>
+                                   
+                                </select>
+                            </div>
                             <div class="mb-2">
                                 <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}} *</label>
                                 <input type="text" name="latitude" id="latitude" class="form-control cap-form-control" value="{{$listing->Latitude}}" placeholder="{{get_phrase('Enter Latitude code')}}" >

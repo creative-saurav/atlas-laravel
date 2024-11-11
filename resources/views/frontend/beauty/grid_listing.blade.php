@@ -5,7 +5,7 @@
  <!-- Start Content Area -->
  <section>
     <div class="container">
-        <div class="row row-28 mb-80">
+        <div class="row row-28 mb-80 mt-3">
             <!-- Sidebar -->
             <div class="col-xl-3 col-lg-4">
                 @include('frontend.beauty.sidebar_beauty')

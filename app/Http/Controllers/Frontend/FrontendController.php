@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 class FrontendController extends Controller
 {
     public function index(){
-
+   
         $page_data['beautyListing'] = BeautyListing::where('visibility','visible')->get();
         $page_data['restaurantListing'] = RestaurantListing::where('visibility','visible')->get();
         $page_data['realEstateListing'] = RealEstateListing::where('visibility','visible')->get();
@@ -27,6 +27,14 @@ class FrontendController extends Controller
         $page_data['categories'] = Category::all();
         $page_data['reviews'] = Review::all();
         $page_data['blogs'] = Blog::where('status', 1)->where('is_popular', 1)->take(3)->get();
+
+        // New
+         $page_data['Totalhotels'] = HotelListing::where('visibility','visible')->take(8)->get();
+         $page_data['Totalrestaurant'] = RestaurantListing::where('visibility','visible')->take(8)->get();
+         $page_data['Totalbeauty'] = BeautyListing::where('visibility','visible')->take(8)->get();
+         $page_data['TotalrealEstate'] = RealEstateListing::where('visibility','visible')->take(8)->get();
+         $page_data['Totalcar'] = CarListing::where('visibility','visible')->take(8)->get();
+        // New
         return view('frontend.index',$page_data);
     }
 
@@ -43,7 +51,10 @@ class FrontendController extends Controller
     }
 
     public function beauty_home(){
-        $page_data['top_listings'] = BeautyListing::orderBy('id', 'desc')->where('visibility', 'visible')->limit(4)->get();
+        $page_data['BeautyPopular'] = BeautyListing::orderBy('id', 'desc')->where('visibility', 'visible')->where('is_popular','popular')->limit(4)->get();
+        $page_data['BeautyBest'] = BeautyListing::orderBy('id', 'desc')->where('visibility', 'visible')->where('is_popular','best')->limit(4)->get();
+        $page_data['BeautyWellness'] = BeautyListing::orderBy('id', 'desc')->where('visibility', 'visible')->where('is_popular','wellness')->limit(4)->get();
+        //$page_data['top_listings'] = BeautyListing::orderBy('id', 'desc')->where('visibility', 'visible')->limit(4)->get();
         $page_data['directory'] = 'beauty';
         return view('frontend.beauty.home', $page_data);
     }

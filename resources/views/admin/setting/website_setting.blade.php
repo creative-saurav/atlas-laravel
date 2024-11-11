@@ -107,10 +107,7 @@
                                 <form action="{{route('admin.website-setting-update')}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="type" value="frontend_settings">
-                                    <div class=" fpb-7 mb-3">
-                                        <label for="map_position" class="form-label ol-form-label"> {{get_phrase('Footer Text')}} </label>
-                                        <input type="text" class="form-control" name="footer_text" placeholder="Enter " value="">
-                                    </div>  
+                                
                                     <div class=" fpb-7 mb-3">
                                         <label for="map_position" class="form-label ol-form-label"> {{get_phrase('Map Position')}} </label>
                                         <select name="map_position" id="map_position" class="form-control ol-select2 ol-form-control">
@@ -129,7 +126,7 @@
                             doctor
                         </div>
                         <div class="tab-pane fade" id="cBeauty" role="tabpanel" aria-labelledby="cBeauty-tab">
-                            Beauty
+                            @include('admin.setting.beauty.index')
                         </div>
                         <div class="tab-pane fade" id="cCar" role="tabpanel" aria-labelledby="cCar-tab">
                             car
@@ -640,6 +637,20 @@ document.getElementById('real_estate').addEventListener('change', function(event
 });
 document.getElementById('restaurent').addEventListener('change', function(event) {
     handleImagePreview(event.target, '.restaurent-preview');
+});
+// Beauty Page Js
+document.getElementById('beauty_banner').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.beauty-preview');
+});
+
+document.getElementById('beauty_facial').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.beauty-facial-preview');
+});
+document.getElementById('beauty_massage').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.beauty-massage-preview');
+});
+document.getElementById('beauty_motion_banner').addEventListener('change', function(event) {
+    handleImagePreview(event.target, '.beauty-motion-preview');
 });
 </script>
 

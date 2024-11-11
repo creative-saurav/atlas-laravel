@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Language;
 use App\Models\FrontendSettings;
+use App\Models\HomePageSetting;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\System_setting;
@@ -733,6 +734,145 @@ public function CompanyLogo(){
 
 
 
+
+    //  Homepage 6type Settings Update
+    public function homepage_setting_update(Request $request) {
+        $data = $request->all();
+        unset($data['_token']);
+        
+        if ($request->type == 'BeautyBanner') {
+            $title = $request->input('beauty_banner_title');
+            $description = $request->input('beauty_banner_description');
+            $video_url = $request->input('video_url');
+            $homePageSetting = HomePageSetting::where('type', 'BeautyBanner')->where('key', 'BeautyBanner')->first();
+            $beauty_banner_data = $homePageSetting ? json_decode($homePageSetting->value) : null;
+            $beauty_banner = $beauty_banner_data ? $beauty_banner_data->image : null;
+            if ($request->hasFile('beauty_banner')) {
+                if ($beauty_banner && file_exists(public_path('uploads/homepage/beauty/' . $beauty_banner))) {
+                    unlink(public_path('uploads/homepage/beauty/' . $beauty_banner));
+                }
+                $file = $request->file('beauty_banner');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/homepage/beauty'), $logo_filename);
+            } else {
+                $logo_filename = $beauty_banner;
+            }
+            $value = json_encode([
+                'title' => $title,
+                'description' => $description,
+                'video_url' => $video_url,
+                'image' => $logo_filename
+            ]);
+            $data['type'] = $request->type;
+            $data['key'] = 'BeautyBanner';
+            $data['value'] = $value;
+            if ($homePageSetting) {
+                $homePageSetting->update($data);
+            } else {
+                HomePageSetting::create($data);
+            }
+            Toastr::success('Beauty Banner updated successfully!', 'Success');
+        }
+
+        if ($request->type == 'BeautyFacial') {
+            $title = $request->input('beauty_Facial_title');
+            $description = $request->input('beauty_facial_discount');
+            $homePageSetting = HomePageSetting::where('type', 'BeautyFacial')->where('key', 'BeautyFacial')->first();
+            $beauty_banner_data = $homePageSetting ? json_decode($homePageSetting->value) : null;
+            $beauty_banner = $beauty_banner_data ? $beauty_banner_data->image : null;
+            if ($request->hasFile('beauty_facial_image')) {
+                if ($beauty_banner && file_exists(public_path('uploads/homepage/beauty/' . $beauty_banner))) {
+                    unlink(public_path('uploads/homepage/beauty/' . $beauty_banner));
+                }
+                $file = $request->file('beauty_facial_image');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/homepage/beauty'), $logo_filename);
+            } else {
+                $logo_filename = $beauty_banner;
+            }
+            $value = json_encode([
+                'title' => $title,
+                'description' => $description,
+                'image' => $logo_filename
+            ]);
+            $data['type'] = $request->type;
+            $data['key'] = 'BeautyFacial';
+            $data['value'] = $value;
+            if ($homePageSetting) {
+                $homePageSetting->update($data);
+            } else {
+                HomePageSetting::create($data);
+            }
+            Toastr::success('Beauty Facial Image updated successfully!', 'Success');
+        }
+        if ($request->type == 'BeautyMassage') {
+            $title = $request->input('beauty_massage_title');
+            $description = $request->input('beauty_massage_discount');
+            $homePageSetting = HomePageSetting::where('type', 'BeautyMassage')->where('key', 'BeautyMassage')->first();
+            $beauty_banner_data = $homePageSetting ? json_decode($homePageSetting->value) : null;
+            $beauty_banner = $beauty_banner_data ? $beauty_banner_data->image : null;
+            if ($request->hasFile('beauty_massage_banner')) {
+                if ($beauty_banner && file_exists(public_path('uploads/homepage/beauty/' . $beauty_banner))) {
+                    unlink(public_path('uploads/homepage/beauty/' . $beauty_banner));
+                }
+                $file = $request->file('beauty_massage_banner');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/homepage/beauty'), $logo_filename);
+            } else {
+                $logo_filename = $beauty_banner;
+            }
+            $value = json_encode([
+                'title' => $title,
+                'description' => $description,
+                'image' => $logo_filename
+            ]);
+            $data['type'] = $request->type;
+            $data['key'] = 'BeautyMassage';
+            $data['value'] = $value;
+            if ($homePageSetting) {
+                $homePageSetting->update($data);
+            } else {
+                HomePageSetting::create($data);
+            }
+            Toastr::success('Beauty Massage Image updated successfully!', 'Success');
+        }
+        if ($request->type == 'BeautyMotion') {
+            $title = $request->input('beauty_motion_title');
+            $description = $request->input('beauty_motion_description');
+            $homePageSetting = HomePageSetting::where('type', 'BeautyMotion')->where('key', 'BeautyMotion')->first();
+            $beauty_banner_data = $homePageSetting ? json_decode($homePageSetting->value) : null;
+            $beauty_banner = $beauty_banner_data ? $beauty_banner_data->image : null;
+            if ($request->hasFile('beauty_motion_banner')) {
+                if ($beauty_banner && file_exists(public_path('uploads/homepage/beauty/' . $beauty_banner))) {
+                    unlink(public_path('uploads/homepage/beauty/' . $beauty_banner));
+                }
+                $file = $request->file('beauty_motion_banner');
+                $logo_filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/homepage/beauty'), $logo_filename);
+            } else {
+                $logo_filename = $beauty_banner;
+            }
+            $value = json_encode([
+                'title' => $title,
+                'description' => $description,
+                'image' => $logo_filename
+            ]);
+            $data['type'] = $request->type;
+            $data['key'] = 'BeautyMotion';
+            $data['value'] = $value;
+            if ($homePageSetting) {
+                $homePageSetting->update($data);
+            } else {
+                HomePageSetting::create($data);
+            }
+            Toastr::success('Beauty Motion Image updated successfully!', 'Success');
+        }
+    
+        return redirect()->back();
+    }
+    
+    
+    
 
 
 

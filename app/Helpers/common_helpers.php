@@ -143,3 +143,23 @@ if (! function_exists('nice_file_name')) {
         return slugify($file_title) . '-' . time() . '.' . $extension;
     }
 }
+
+
+// Get Home page Settings Data
+if (! function_exists('get_homepage_settings')) {
+    function get_homepage_settings($type = "", $return_type = false)
+    {
+        $value = DB::table('home_page_settings')->where('key', $type);
+        if ($value->count() > 0) {
+            if ($return_type === true) {
+                return json_decode($value->value('value'), true);
+            } elseif ($return_type === "object") {
+                return json_decode($value->value('value'));
+            } else {
+                return $value->value('value');
+            }
+        } else {
+            return false;
+        }
+    }
+}

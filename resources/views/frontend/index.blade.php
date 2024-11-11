@@ -280,334 +280,376 @@
             <div class="row mb-30px">
                 <div class="col-12">
                     <div class="d-flex gap-14px justify-content-center flex-wrap">
-                        <button type="button" data-filter="all" class="btn mh-filter-btn mixitup-control-active">All</button>
-                        <button type="button" data-filter=".hotel" class="btn mh-filter-btn mixitup-control-active">Hotel</button>
-                        <button type="button" data-filter=".restaurant" class="btn mh-filter-btn">Restaurant</button>
-                        <button type="button" data-filter=".beauty" class="btn mh-filter-btn">Beauty</button>
-                        <button type="button" data-filter=".doctors" class="btn mh-filter-btn">Doctors</button>
-                        <button type="button" data-filter=".real-estate" class="btn mh-filter-btn">Real Estate</button>
-                        <button type="button" data-filter=".car" class="btn mh-filter-btn">Car</button>
+                        {{-- <button type="button" data-filter="all" class="btn mh-filter-btn mixitup-control-active">{{get_phrase('All')}}</button> --}}
+                        <button type="button" data-filter=".hotel" class="btn mh-filter-btn mixitup-control-active">{{get_phrase('Hotel')}}</button>
+                        <button type="button" data-filter=".restaurant" class="btn mh-filter-btn">{{get_phrase('Restaurant')}}</button>
+                        <button type="button" data-filter=".beauty" class="btn mh-filter-btn">{{get_phrase('Beauty')}}</button>
+                        <button type="button" data-filter=".real-estate" class="btn mh-filter-btn">{{get_phrase('Real Estate')}}</button>
+                        <button type="button" data-filter=".car" class="btn mh-filter-btn">{{get_phrase('Car')}}</button>
+                        <button type="button" data-filter=".doctors" class="btn mh-filter-btn">{{get_phrase('Doctors')}}</button>
                     </div>
                 </div>
             </div>
-            <div class="mixitup row g-4 mb-30px">
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix restaurant doctors car">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner1.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
+            <div class="mixitup2 row g-4 mb-30px">
+                <!-- Hotel  Single Card -->
+                @foreach($Totalhotels as $hotelList)
+                @php 
+                  $images = json_decode($hotelList->image) ?? [];
+                  $countryName = App\Models\Country::where('id', $hotelList->country)->first();
+                  $cityName = App\Models\City::where('id', $hotelList->city)->first();
+                @endphp
+               
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix hotel">
+                    <div class="single-grid-card">
+                        <!-- Banner Slider -->
+                        <div class="grid-slider-area">
+                            <div class="swiper grid-banner-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($images as $image)
+                                    <div class="swiper-slide">
+                                        <div class="grid-slide-img">
+                                            <img src="{{get_image('public/storage/listing-images/'.$image)}}" alt="Hotel Image">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <p class="grid-slider-counter d-flex align-items-center justify-content-center"><span class="current-slide">00</span>/<span class="total-slides">00</span></p>
+                            </div>
+                            <p class="card-light-text theme-light">Featured</p>
+                            <a href="javascript:void(0);" class="grid-list-bookmark white-bookmark">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
+                                    <path d="M13.4361 3C12.7326 3.01162 12.0445 3.22023 11.4411 3.60475C10.8378 3.98927 10.3407 4.53609 10 5.18999C9.65929 4.53609 9.16217 3.98927 8.55886 3.60475C7.95554 3.22023 7.26738 3.01162 6.56389 3C5.44243 3.05176 4.38583 3.57288 3.62494 4.44953C2.86404 5.32617 2.4607 6.48707 2.50302 7.67861C2.50302 10.6961 5.49307 13.9917 8.00081 16.2262C8.56072 16.726 9.26864 17 10 17C10.7314 17 11.4393 16.726 11.9992 16.2262C14.5069 13.9917 17.497 10.6961 17.497 7.67861C17.5393 6.48707 17.136 5.32617 16.3751 4.44953C15.6142 3.57288 14.5576 3.05176 13.4361 3Z" fill="#6C1CFF"/>
+                                </svg>                                                 
                             </a>
                         </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Ulysses S. Grant</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg " alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
+                        <div class="hotel-grid-details">
+                            <a href="#" class="title">{{$hotelList->title}}</a>
+                            <div class="hotelgrid-location-rating d-flex align-items-center justify-content-between flex-wrap">
+                                <div class="location d-flex">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/location-purple-16.svg') }}" alt="">
+                                    <p class="name">{{$cityName->name}}, {{$countryName->name}}</p>
+                                </div>
+                                <div class="ratings d-flex align-items-center">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/star-yellow-20.svg') }}" alt="">
+                                    <p class="rating">4.8</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$69 <span>/ night</span></h3>
+                            <ul class="hotelgrid-list-items d-flex align-items-center flex-wrap">
+                                <li>{{$hotelList->bed}} {{get_phrase('Bed')}}</li>
+                                <li>{{$hotelList->bath}} {{get_phrase('Bath')}}</li>
+                                <li>{{$hotelList->size}} {{get_phrase('Sft')}}</li>
+                                {{-- <li class="more">+5 More</li> --}}
+                            </ul>
+                            <div class="hotelgrid-see-price d-flex align-items-center justify-content-between">
+                                <a href="#" class="see-details-btn1">{{get_phrase('See Details')}}</a>
+                                <div class="prices d-flex">
+                                    <p class="price">{{currency($hotelList->price)}}</p>
+                                    {{-- <p class="time">/night</p> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix beauty real-estate hotel">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner2.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
+                @endforeach
+                <!-- Restaurent  Single Card -->
+                @foreach($Totalrestaurant as $restaurantList)
+                @php 
+                    $resturentImage = json_decode($restaurantList->image) ?? [];
+                    $countryNameR = App\Models\Country::where('id', $restaurantList->country)->first();
+                    $cityNameR = App\Models\City::where('id', $restaurantList->city)->first();
+                @endphp
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix restaurant">
+                    <div class="single-grid-card">
+                        <!-- Banner Slider -->
+                        <div class="grid-slider-area">
+                            <div class="swiper grid-banner-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($resturentImage as $image)
+                                    <div class="swiper-slide">
+                                        <div class="grid-slide-img">
+                                            <img src="{{get_image('public/storage/listing-images/'.$image)}}" alt="Hotel Image">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <p class="grid-slider-counter d-flex align-items-center justify-content-center"><span class="current-slide">00</span>/<span class="total-slides">00</span></p>
+                            </div>
+                            <p class="card-light-text theme-light">Featured</p>
+                            <a href="javascript:void(0);" class="grid-list-bookmark white-bookmark">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
+                                    <path d="M13.4361 3C12.7326 3.01162 12.0445 3.22023 11.4411 3.60475C10.8378 3.98927 10.3407 4.53609 10 5.18999C9.65929 4.53609 9.16217 3.98927 8.55886 3.60475C7.95554 3.22023 7.26738 3.01162 6.56389 3C5.44243 3.05176 4.38583 3.57288 3.62494 4.44953C2.86404 5.32617 2.4607 6.48707 2.50302 7.67861C2.50302 10.6961 5.49307 13.9917 8.00081 16.2262C8.56072 16.726 9.26864 17 10 17C10.7314 17 11.4393 16.726 11.9992 16.2262C14.5069 13.9917 17.497 10.6961 17.497 7.67861C17.5393 6.48707 17.136 5.32617 16.3751 4.44953C15.6142 3.57288 14.5576 3.05176 13.4361 3Z" fill="#6C1CFF"/>
+                                </svg>                                                 
                             </a>
                         </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Grand Palace Hotel</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
+                        <a href="#" class="restaurant-grid-link">
+                            <div class="restaurent-grid-details">
+                                <div class="restgrid-title-location">
+                                    <h3 class="title">{{$restaurantList->title}}</h3>
+                                    <div class="location d-flex">
+                                        <img src="{{ asset('public/assets/frontend/images/icons/location-purple-16.svg') }}" alt="">
+                                        <p class="name">{{$cityNameR->name}}, {{$countryNameR->name}}</p>
+                                    </div>
+                                </div>
+                                <div class="restgrid-price-rating d-flex align-items-center justify-content-between">
+                                    <div class="prices d-flex">
+                                        <p class="new-price">$20.00</p>
+                                        <p class="old-price">$20.00</p>
+                                    </div>
+                                    <div class="ratings d-flex align-items-center">
+                                        <img src="{{ asset('public/assets/frontend/images/icons/star-yellow-20.svg') }}" alt="">
+                                        <p class="rating">4.8</p>
+                                    </div>
+                                </div>
+                                <ul class="restgrid-list-items d-flex align-items-center flex-wrap">
+                                    <li>{{get_phrase('Dine in')}}</li>
+                                    <li>{{get_phrase('Takeaway')}}</li>
+                                    <li>{{get_phrase('Delivery')}}</li>
+                                </ul>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+                <!-- Beauty  Single Card -->
+                @foreach($Totalbeauty as $beautyList)
+                @php 
+                    $beautyListImage = json_decode($beautyList->image) ?? [];
+                    $countryNameB = App\Models\Country::where('id', $beautyList->country)->first();
+                    $cityNameB = App\Models\City::where('id', $beautyList->city)->first();
+
+                    $today = strtolower(now()->format('l'));
+                    $openingTimes = json_decode($beautyList->opening_time, true);
+                    $todayOpening = $openingTimes[$today]['open'];
+                    $todayClosing = $openingTimes[$today]['close'];
+                    $currentTime = now()->format('H');
+
+                    // Determine if the place is open or closed
+                    $isClosed = ($todayOpening === 'closed' && $todayClosing === 'closed');
+                    $isWithinTimeRange = ($currentTime >= $todayOpening || $currentTime < $todayClosing);
+
+                @endphp
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix beauty">
+                    <div class="single-grid-card">
+                        <!-- Banner Slider -->
+                        <div class="grid-slider-area">
+                            <div class="swiper grid-banner-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($beautyListImage as $image)
+                                    <div class="swiper-slide">
+                                        <div class="grid-slide-img">
+                                            <img src="{{get_image('public/storage/listing-images/'.$image)}}" alt="">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <p class="grid-slider-counter d-flex align-items-center justify-content-center"><span class="current-slide">00</span>/<span class="total-slides">00</span></p>
+                            </div>
+                            <p class="card-light-text theme-light">Featured</p>
+                            <a href="javascript:void(0);" class="grid-list-bookmark white-bookmark">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.4361 3C12.7326 3.01162 12.0445 3.22023 11.4411 3.60475C10.8378 3.98927 10.3407 4.53609 10 5.18999C9.65929 4.53609 9.16217 3.98927 8.55886 3.60475C7.95554 3.22023 7.26738 3.01162 6.56389 3C5.44243 3.05176 4.38583 3.57288 3.62494 4.44953C2.86404 5.32617 2.4607 6.48707 2.50302 7.67861C2.50302 10.6961 5.49307 13.9917 8.00081 16.2262C8.56072 16.726 9.26864 17 10 17C10.7314 17 11.4393 16.726 11.9992 16.2262C14.5069 13.9917 17.497 10.6961 17.497 7.67861C17.5393 6.48707 17.136 5.32617 16.3751 4.44953C15.6142 3.57288 14.5576 3.05176 13.4361 3Z" fill="#6C1CFF"/>
+                                </svg>                                                 
+                            </a>
+                        </div>
+                        <div class="beauty-grid-details">
+                            <div class="beautygrid-location-title">
+                                <div class="location d-flex">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/location-purple-16.svg') }}" alt="">
+                                    <p class="name">{{$cityNameB->name}}, {{$countryNameB->name}}</p>
+                                </div>
+                                <a href="#" class="title">{{$beautyList->title}}</a>
+                            </div>
+                            <div class="beautygrid-rating-open d-flex align-items-center justify-content-between flex-wrap">
+                                <div class="beauty-grid-ratings d-flex align-items-center">
+                                    <p class="rating">4.8</p>
+                                    <img src="{{ asset('public/assets/frontend/images/icons/star-yellow-20.svg') }}" alt="">
+                                    <p class="reviews">1.2k</p>
+                                </div>
+                                <div class="beauty-grid-open d-flex align-items-center">
+                                    @if ($isClosed || !$isWithinTimeRange)
+                                    <img src="{{ asset('public/assets/frontend/images/icons/door-open-red.svg') }}" alt="">
+                                    <p class="status close">{{get_phrase('Closed')}}</p>
+                                @else
+                                    <img src="{{ asset('public/assets/frontend/images/icons/door-open-green.svg') }}" alt="">
+                                    <p class="status">{{get_phrase('Open')}}</p>
+                                @endif
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$76 <span>/ night</span></h3>
+                            <div class="beauty-grid-btns d-flex align-items-center justify-content-between flex-wrap">
+                                <a href="#" class="small-border-btn1">{{get_phrase('See Details')}}</a>
+                                <a href="#" class="reals-grid-view">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.6499 9.33752H6.8999C6.5924 9.33752 6.3374 9.08252 6.3374 8.77502C6.3374 8.46752 6.5924 8.21252 6.8999 8.21252H10.6499C10.9574 8.21252 11.2124 8.46752 11.2124 8.77502C11.2124 9.08252 10.9574 9.33752 10.6499 9.33752Z" fill="#555558"/>
+                                        <path d="M8.7749 11.2125C8.4674 11.2125 8.2124 10.9575 8.2124 10.65V6.90002C8.2124 6.59252 8.4674 6.33752 8.7749 6.33752C9.0824 6.33752 9.3374 6.59252 9.3374 6.90002V10.65C9.3374 10.9575 9.0824 11.2125 8.7749 11.2125Z" fill="#555558"/>
+                                        <path d="M8.625 16.3125C4.3875 16.3125 0.9375 12.8625 0.9375 8.625C0.9375 4.3875 4.3875 0.9375 8.625 0.9375C12.8625 0.9375 16.3125 4.3875 16.3125 8.625C16.3125 12.8625 12.8625 16.3125 8.625 16.3125ZM8.625 2.0625C5.0025 2.0625 2.0625 5.01 2.0625 8.625C2.0625 12.24 5.0025 15.1875 8.625 15.1875C12.2475 15.1875 15.1875 12.24 15.1875 8.625C15.1875 5.01 12.2475 2.0625 8.625 2.0625Z" fill="#555558"/>
+                                        <path d="M16.5001 17.0625C16.3576 17.0625 16.2151 17.01 16.1026 16.8975L13.5003 14.2955C13.2828 14.078 13.2828 13.718 13.5003 13.5005C13.7178 13.283 14.0778 13.283 14.2953 13.5005L16.8976 16.1025C17.1151 16.32 17.1151 16.68 16.8976 16.8975C16.7851 17.01 16.6426 17.0625 16.5001 17.0625Z" fill="#555558"/>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix restaurant beauty real-estate car">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner3.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
+                @endforeach
+                <!-- Real Estate  Single Card -->
+                @foreach($TotalrealEstate as $realEsate)
+                @php 
+                  $realEsateImage = json_decode($realEsate->image) ?? [];
+                  $countryNameReal = App\Models\Country::where('id', $realEsate->country)->first();
+                  $cityNameReal = App\Models\City::where('id', $realEsate->city)->first();
+                @endphp
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix real-estate">
+                    <div class="single-grid-card">
+                        <!-- Banner Slider -->
+                        <div class="grid-slider-area">
+                            <div class="swiper grid-banner-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($realEsateImage as $image)
+                                    <div class="swiper-slide">
+                                        <div class="grid-slide-img">
+                                            <img src="{{get_image('public/storage/listing-images/'.$image)}}" alt="">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <p class="grid-slider-counter d-flex align-items-center justify-content-center"><span class="current-slide">00</span>/<span class="total-slides">00</span></p>
+                            </div>
+                            <p class="card-light-text black-light">For Sell</p>
+                            <a href="javascript:void(0);" class="grid-list-bookmark white-bookmark">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
+                                    <path d="M13.4361 3C12.7326 3.01162 12.0445 3.22023 11.4411 3.60475C10.8378 3.98927 10.3407 4.53609 10 5.18999C9.65929 4.53609 9.16217 3.98927 8.55886 3.60475C7.95554 3.22023 7.26738 3.01162 6.56389 3C5.44243 3.05176 4.38583 3.57288 3.62494 4.44953C2.86404 5.32617 2.4607 6.48707 2.50302 7.67861C2.50302 10.6961 5.49307 13.9917 8.00081 16.2262C8.56072 16.726 9.26864 17 10 17C10.7314 17 11.4393 16.726 11.9992 16.2262C14.5069 13.9917 17.497 10.6961 17.497 7.67861C17.5393 6.48707 17.136 5.32617 16.3751 4.44953C15.6142 3.57288 14.5576 3.05176 13.4361 3Z" fill="#6C1CFF"/>
+                                </svg>                                                 
                             </a>
                         </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Ulysses S. Grant</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
+                        <div class="reals-grid-details">
+                            <div class="location d-flex">
+                                <img src="{{ asset('public/assets/frontend/images/icons/location-purple-16.svg') }}" alt="">
+                                <p class="info">{{$cityNameReal->name}}, {{$countryNameReal->name}}</p>
+                            </div>
+                            <div class="reals-grid-title mb-16">
+                                <a href="#" class="title">{{$realEsate->title}}</a>
+                                <p class="info">{{ Str::limit(strip_tags($realEsate->description), 100) }}</p>
+                            </div>
+                            <div class="reals-bed-bath-sqft d-flex align-items-center flex-wrap">
+                                <div class="item d-flex align-items-center">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/bed-gray-16.svg') }}" alt="">
+                                    <p class="total">{{$realEsate->bed}} {{get_phrase('Bed')}}</p>
+                                </div>
+                                <div class="item d-flex align-items-center">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/bath-gray-16.svg') }}" alt="">
+                                    <p class="total">{{$realEsate->bath}} {{get_phrase('Bath')}}</p>
+                                </div>
+                                <div class="item d-flex align-items-center">
+                                    <img src="{{ asset('public/assets/frontend/images/icons/resize-arrows-gray-16.svg ') }}" alt="">
+                                    <p class="total">{{$realEsate->size}} {{get_phrase('sqft')}}</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$95 <span>/ night</span></h3>
+                            <div class="reals-grid-price-see d-flex align-items-center justify-content-between">
+                                <div class="prices d-flex">
+                                    <p class="new-price">{{currency($realEsate->price)}}</p>
+                                    {{-- <p class="old-price">$20.00</p> --}}
+                                </div>
+                                <a href="#" class="reals-grid-view">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.6499 9.33752H6.8999C6.5924 9.33752 6.3374 9.08252 6.3374 8.77502C6.3374 8.46752 6.5924 8.21252 6.8999 8.21252H10.6499C10.9574 8.21252 11.2124 8.46752 11.2124 8.77502C11.2124 9.08252 10.9574 9.33752 10.6499 9.33752Z" fill="#555558"/>
+                                        <path d="M8.7749 11.2125C8.4674 11.2125 8.2124 10.9575 8.2124 10.65V6.90002C8.2124 6.59252 8.4674 6.33752 8.7749 6.33752C9.0824 6.33752 9.3374 6.59252 9.3374 6.90002V10.65C9.3374 10.9575 9.0824 11.2125 8.7749 11.2125Z" fill="#555558"/>
+                                        <path d="M8.625 16.3125C4.3875 16.3125 0.9375 12.8625 0.9375 8.625C0.9375 4.3875 4.3875 0.9375 8.625 0.9375C12.8625 0.9375 16.3125 4.3875 16.3125 8.625C16.3125 12.8625 12.8625 16.3125 8.625 16.3125ZM8.625 2.0625C5.0025 2.0625 2.0625 5.01 2.0625 8.625C2.0625 12.24 5.0025 15.1875 8.625 15.1875C12.2475 15.1875 15.1875 12.24 15.1875 8.625C15.1875 5.01 12.2475 2.0625 8.625 2.0625Z" fill="#555558"/>
+                                        <path d="M16.5001 17.0625C16.3576 17.0625 16.2151 17.01 16.1026 16.8975L13.5003 14.2955C13.2828 14.078 13.2828 13.718 13.5003 13.5005C13.7178 13.283 14.0778 13.283 14.2953 13.5005L16.8976 16.1025C17.1151 16.32 17.1151 16.68 16.8976 16.8975C16.7851 17.01 16.6426 17.0625 16.5001 17.0625Z" fill="#555558"/>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix doctors car hotel">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner2.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
+                @endforeach
+                <!-- Car  Single Card -->
+                @foreach($Totalcar as $carList)
+                    @php 
+                    $carImage = json_decode($carList->image) ?? [];
+                    $countryNameCar = App\Models\Country::where('id', $carList->country)->first();
+                    $cityNameCar = App\Models\City::where('id', $carList->city)->first();
+                    $fuelType = App\Models\Amenities::where('id', $carList->fuel_type)->first();
+                    $engineSize = App\Models\Amenities::where('id', $carList->engine_size)->first();
+                @endphp
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix car">
+                    <div class="single-grid-card">
+                        <!-- Banner Slider -->
+                        <div class="grid-slider-area">
+                            <div class="swiper grid-banner-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($carImage as $image)
+                                    <div class="swiper-slide">
+                                        <div class="grid-slide-img">
+                                            <img src="{{get_image('public/storage/listing-images/'.$image)}}" alt="">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <p class="grid-slider-counter d-flex align-items-center justify-content-center"><span class="current-slide">00</span>/<span class="total-slides">00</span></p>
+                            </div>
+                            <p class="card-light-text theme-light">Featured</p>
+                            <a href="javascript:void(0);" class="grid-list-bookmark white-bookmark">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
+                                    <path d="M13.4361 3C12.7326 3.01162 12.0445 3.22023 11.4411 3.60475C10.8378 3.98927 10.3407 4.53609 10 5.18999C9.65929 4.53609 9.16217 3.98927 8.55886 3.60475C7.95554 3.22023 7.26738 3.01162 6.56389 3C5.44243 3.05176 4.38583 3.57288 3.62494 4.44953C2.86404 5.32617 2.4607 6.48707 2.50302 7.67861C2.50302 10.6961 5.49307 13.9917 8.00081 16.2262C8.56072 16.726 9.26864 17 10 17C10.7314 17 11.4393 16.726 11.9992 16.2262C14.5069 13.9917 17.497 10.6961 17.497 7.67861C17.5393 6.48707 17.136 5.32617 16.3751 4.44953C15.6142 3.57288 14.5576 3.05176 13.4361 3Z" fill="#6C1CFF"/>
+                                </svg>                                                 
                             </a>
                         </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Stradivarius</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
+                        <div class="car-grid-details">
+                            <div class="cargrid-title-area">
+                                <a href="#" class="title">{{$carList->title}}</a>
+                                <p class="info">{{ Str::limit(strip_tags($carList->description), 100) }}</p>
+                            </div>
+                            <ul class="cargrid-list-items d-flex align-items-center flex-wrap">
+                                <li>
+                                    <img src="{{ asset('public/assets/frontend/images/icons/engine-black-24.svg') }}" alt="">
+                                    <p class="info">{{$engineSize->name}}</p>
+                                </li>
+                                <li>
+                                    <img src="{{ asset('public/assets/frontend/images/icons/mileage-black-24.svg') }}" alt="">
+                                    <p class="info">{{$carList->mileage}}</p>
+                                </li>
+                                <li>
+                                    <img src="{{ asset('public/assets/frontend/images/icons/petrol-black-24.svg') }}" alt="">
+                                    <p class="info">{{$fuelType->name}}</p>
+                                </li>
+                            </ul>
+                            <div class="cargrid-price-view d-flex align-items-end justify-content-between flex-wrap">
+                                <div class="prices">
+                                    {{-- <p class="old-price">$500</p> --}}
+                                    <p class="new-price">{{currency($carList->price)}}</p>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$49 <span>/ night</span></h3>
+                                <a href="#" class="view-details">
+                                    <span>{{get_phrase('View details')}}</span>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11.7019 4.28049L4.63086 11.3516" stroke="#7E7E89" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6.0095 4.2927L11.7012 4.28045L11.6895 9.97266" stroke="#7E7E89" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix restaurant doctors real-estate">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner4.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Ulysses S. Grant</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$59 <span>/ night</span></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix beauty car hotel">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner3.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Grand Palace Hotel</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$44 <span>/ night</span></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix restaurant beauty real-estate">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner4.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Ulysses S. Grant</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$95 <span>/ night</span></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Card -->
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mix doctors hotel">
-                    <div class="mh-product-card max-md-400px mx-auto mx-md-0">
-                        <a href="#" class="mh-product-card-link"></a>
-                        <div class="mh-product-card-banner">
-                            <img src="{{asset('public/assets/frontend/images/hotel/hotel-blog-banner1.webp')}}" alt="banner">
-                            <a href="javascript:void(0);" class="mh-product-card-bookmark">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99984 18.0417C9.7415 18.0417 9.4915 18.0084 9.28317 17.9334C6.09984 16.8417 1.0415 12.9667 1.0415 7.24171C1.0415 4.32504 3.39984 1.95837 6.29984 1.95837C7.70817 1.95837 9.02484 2.50837 9.99984 3.49171C10.9748 2.50837 12.2915 1.95837 13.6998 1.95837C16.5998 1.95837 18.9582 4.33337 18.9582 7.24171C18.9582 12.975 13.8998 16.8417 10.7165 17.9334C10.5082 18.0084 10.2582 18.0417 9.99984 18.0417ZM6.29984 3.20837C4.0915 3.20837 2.2915 5.01671 2.2915 7.24171C2.2915 12.9334 7.7665 16.1 9.6915 16.7584C9.8415 16.8084 10.1665 16.8084 10.3165 16.7584C12.2332 16.1 17.7165 12.9417 17.7165 7.24171C17.7165 5.01671 15.9165 3.20837 13.7082 3.20837C12.4415 3.20837 11.2665 3.80004 10.5082 4.82504C10.2748 5.14171 9.7415 5.14171 9.50817 4.82504C8.73317 3.79171 7.5665 3.20837 6.29984 3.20837Z" fill="white"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="mh-product-card-details">
-                            <div class="mb-6px d-flex align-items-start justify-content-between gap-1">
-                                <h4 class="in-title2-18px">Stradivarius</h4>
-                                <div class="mb-2 d-flex align-items-center gap-1">
-                                    <img class="mb-2px" src="assets/images/icons/star-yellow-20.svg" alt="icon">   
-                                    <h4 class="in-text-16px at-text-dark">4.5</h4>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-3">
-                                <img src="assets/images/icons/location-purple-16.svg" alt="icon">
-                                <p class="in-subtitle-14px at-text-secondary">Sydney, Australia</p>
-                            </div>
-                            <div class="gap-6px mb-3 d-flex flex-wrap align-items-center">
-                                <ul class="mh-product-card-tags">
-                                    <li>Wifi</li>
-                                    <li>Breakfast</li>
-                                    <li>Balcony</li>
-                                </ul>
-                                <p class="mh-product-card-tag-more">+5 More</p>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
-                                <a href="https://creativeitem.com/" class="btn at2-btn-purple position-relative z-1">See Details</a>
-                                <h3 class="mh-product-card-price d-flex align-items-center align-items-end">$65 <span>/ night</span></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+               
             </div>
             <div class="row mb-100px">
                 <div class="col-12">
                     <div class="d-flex justify-content-center">
-                        <a href="#" class="btn at-btn-outline-dark">View More</a>
+                        <a href="#" class="btn at-btn-outline-dark">{{get_phrase('View More')}}</a>
                     </div>
                 </div>
             </div>

@@ -231,7 +231,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('user/review/update/{id}', [SettingController::class, 'review_update'])->name('admin.review.update'); 
     Route::get('user/review/delete/{id}', [SettingController::class, 'review_delete'])->name('admin.review.delete'); 
 
-      
+    // Homepage Settings (Beauty, Car , Restaurent, Hotel, Real Estate, Docotor)
+
+    Route::post('/homepage-setting-update', [SettingController::class, 'homepage_setting_update'])->name('admin.homepage-setting-update');
 
 
 
@@ -260,19 +262,6 @@ Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'storage linked successfully';
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Route::get('/dashboard', function () {

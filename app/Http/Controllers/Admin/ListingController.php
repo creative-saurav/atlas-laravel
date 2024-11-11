@@ -58,7 +58,7 @@ class ListingController extends Controller
         $data['description'] = $request->description;
         $data['visibility'] = $request->visibility;
         $data['type'] = $type;
-
+        
         $data['meta_title'] = $request->meta_title;
         $data['meta_keyword'] = $request->keyword;
         $data['meta_description'] = $request->meta_description;
@@ -112,6 +112,7 @@ class ListingController extends Controller
             CarListing::insert($data);
         }elseif($type == 'beauty'){
             $data['video'] = $request->video;
+            $data['is_popular'] = $request->is_popular;
             BeautyListing::insert($data);
         }elseif($type == 'hotel'){
             $data['price'] = $request->price;
@@ -249,6 +250,8 @@ class ListingController extends Controller
             $data['opening_time'] = json_encode($opening_times);
 
             $data['video'] = $request->video;
+
+            $data['is_popular'] = $request->is_popular;
             
             $data['team'] = json_encode($request->team)??[];
             $data['service'] = json_encode($request->service)??[];

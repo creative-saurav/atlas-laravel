@@ -13,7 +13,7 @@
                 <span>{{ucwords($type).' '.get_phrase('Category')}}</span>
                 <img src="{{asset('public/assets/frontend/images/icons/angle-down-black-20.svg')}}" alt="">
             </a>
-            <ul class="sidebar-accordion-menu sidebar-menu-active">
+            <ul class="sidebar-accordion-menu sidebar-menu-active" style="display: block;">
                 @foreach ($categories as $category)     
                 <li><a href="#" class="active">
                     <span> {{$category->name}} </span>

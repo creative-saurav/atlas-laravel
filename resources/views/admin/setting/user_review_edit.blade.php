@@ -29,7 +29,7 @@
 
                         <div class="fpb-7 mb-3">
                             <label class="form-label ol-form-label" for="summernote-basic">{{ get_phrase('Review') }}</label>
-                            <textarea name="review" class="form-control ol-form-control">{{$review_data->review}}</textarea>
+                            <textarea name="review" class="form-control ol-form-control h-200">{{$review_data->review}}</textarea>
                         </div>
 
 
